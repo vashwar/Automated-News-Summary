@@ -1,0 +1,70 @@
+name: Daily News Briefing
+
+on:
+  schedule:
+    # Morning edition: 8 AM PST = 16:00 UTC (Mon-Fri)
+    - cron: "0 16 * * 1-5"
+    # Evening edition: 6 PM PST = 02:00 UTC next day (Tue-Sat for Mon-Fri evenings)
+    - cron: "0 2 * * 2-6"
+    # Weekly digest: Saturday 8 AM PST = 16:00 UTC
+    - cron: "0 16 * * 6"
+  workflow_dispatch:
+    inputs:
+      edition:
+        description: "Edition to run (morning, evening, weekly)"
+        required: true
+        default: "morning"
+        type: choice
+        options:
+          - morning
+          - evening
+          - weekly
+
+jobs:
+  briefing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore state cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            feed_health.json
+            weekly_state.json
+          key: briefing-state-v1
+          restore-keys: |
+            briefing-state-v1
+
+      - name: Determine edition
+        id: edition
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "type=${{ github.event.inputs.edition }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 16 * * 6" ]; then
+            echo "type=weekly" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 2 * * 2-6" ]; then
+            echo "type=evening" >> "$GITHUB_OUTPUT"
+          else
+            echo "type=morning" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run briefing pipeline
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER || 'gemini' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          SEND_ERROR_EMAILS: "true"
+        run: python main.py --edition ${{ steps.edition.outputs.type }}

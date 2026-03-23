@@ -1,0 +1,7 @@
+feedparser>=6.0
+beautifulsoup4>=4.12
+google-genai>=1.0
+openai>=1.0
+resend>=2.0
+Jinja2>=3.1
+python-dotenv>=1.0

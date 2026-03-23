@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ edition_label }} — {{ date_str }}</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #f5f5f5;
+    padding: 40px 20px;
+    color: #333;
+    line-height: 1.6;
+  }
+  .email-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+  }
+  .header {
+    padding: 32px 32px 16px;
+    border-bottom: 1px solid #eee;
+  }
+  .header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: -0.3px;
+  }
+  .header .date {
+    font-size: 13px;
+    color: #888;
+    margin-top: 4px;
+  }
+  .header .edition {
+    font-size: 11px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+  .tldr {
+    padding: 24px 32px;
+    background: #fafafa;
+    border-bottom: 1px solid #eee;
+  }
+  .tldr-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #999;
+    margin-bottom: 8px;
+  }
+  .tldr p {
+    font-size: 16px;
+    color: #1a1a1a;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .section {
+    padding: 24px 32px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .section:last-of-type {
+    border-bottom: none;
+  }
+  .section h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #999;
+    margin-bottom: 16px;
+  }
+  .bullet {
+    margin-bottom: 14px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+    padding-left: 16px;
+    position: relative;
+  }
+  .bullet::before {
+    content: "\2022";
+    position: absolute;
+    left: 0;
+    color: #ccc;
+  }
+  .bullet strong {
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  .bullet a {
+    color: #888;
+    font-size: 12px;
+    text-decoration: none;
+    margin-left: 4px;
+  }
+  .bullet a:hover {
+    text-decoration: underline;
+  }
+  .connecting {
+    padding: 20px 32px;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+  .connecting .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #999;
+    margin-bottom: 8px;
+  }
+  .connecting p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+  }
+  .footer {
+    padding: 20px 32px;
+    border-top: 1px solid #eee;
+    text-align: center;
+  }
+  .footer p {
+    font-size: 11px;
+    color: #bbb;
+  }
+  .warning {
+    color: #c0392b;
+    font-size: 11px;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+  <div class="email-container">
+
+    <!-- Header -->
+    <div class="header">
+      <h1>{% if edition_type == 'weekly' %}Weekly Digest{% else %}Daily Briefing{% endif %}</h1>
+      <div class="date">{{ date_str }}</div>
+      <div class="edition">{{ edition_label }}</div>
+    </div>
+
+    {% if edition_type == 'weekly' %}
+    {# ============ WEEKLY EDITION ============ #}
+
+    <!-- Week Overview -->
+    <div class="tldr">
+      <div class="tldr-label">Week in Review</div>
+      <p>{{ data.week_overview }}</p>
+    </div>
+
+    <!-- World Trends -->
+    <div class="section">
+      <h2>World Trends</h2>
+      {% for item in data.world_trends %}
+      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Finance Trends -->
+    <div class="section">
+      <h2>Finance Trends</h2>
+      {% for item in data.finance_trends %}
+      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Bangladesh Trends -->
+    <div class="section">
+      <h2>Bangladesh Trends</h2>
+      {% for item in data.bangladesh_trends %}
+      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- What to Watch -->
+    <div class="section">
+      <h2>What to Watch Next Week</h2>
+      {% for item in data.what_to_watch %}
+      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary }}</div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    {# ============ DAILY EDITION (morning / evening) ============ #}
+
+    <!-- Macro TL;DR -->
+    <div class="tldr">
+      <div class="tldr-label">Macro TL;DR</div>
+      <p>{{ data.macro_tldr }}</p>
+    </div>
+
+    <!-- World News -->
+    <div class="section">
+      <h2>World News</h2>
+      {% for item in data.world_news %}
+      <div class="bullet">
+        <strong>{{ item.title }}.</strong> {{ item.summary }}
+        {% if item.source_url %}<a href="{{ item.source_url }}">[{{ item.source_name }}]</a>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Finance News -->
+    <div class="section">
+      <h2>Finance News</h2>
+      {% for item in data.finance_news %}
+      <div class="bullet">
+        <strong>{{ item.title }}.</strong> {{ item.summary }}
+        {% if item.source_url %}<a href="{{ item.source_url }}">[{{ item.source_name }}]</a>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Bangladesh News -->
+    <div class="section">
+      <h2>Bangladesh News</h2>
+      {% for item in data.bangladesh_news %}
+      <div class="bullet">
+        <strong>{{ item.title }}.</strong> {{ item.summary }}
+        {% if item.source_url %}<a href="{{ item.source_url }}">[{{ item.source_name }}]</a>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Connecting the Dots -->
+    {% if data.connecting_the_dots %}
+    <div class="connecting">
+      <div class="label">Connecting the Dots</div>
+      <p>{{ data.connecting_the_dots }}</p>
+    </div>
+    {% endif %}
+
+    {% endif %}
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Generated by NewsSummary &middot; Powered by Claude &middot; Delivered via Resend</p>
+      {% for warning in feed_warnings %}
+      <p class="warning">&#9888; {{ warning }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+feed_health.json
+weekly_state.json
