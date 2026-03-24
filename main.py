@@ -783,7 +783,7 @@ def main() -> None:
                 save_json_file(FEED_HEALTH_FILE, health)
                 data = summarize(articles, args.edition)
                 html = render_email(data, args.edition, get_feed_warnings(health))
-                print(html)
+                sys.stdout.buffer.write(html.encode("utf-8"))
                 return
 
             run_pipeline(args.edition)
