@@ -23,7 +23,7 @@ The pipeline runs on a schedule (or on demand) and performs four steps:
 
 - **World News** — Wall Street Journal, New York Times
 - **Finance News** — Wall Street Journal Markets
-- **Bangladesh News** — The Daily Star, Prothom Alo English
+- **Bangladesh News** — The Daily Star (general news + business)
 
 ### Features
 
@@ -226,8 +226,8 @@ FEEDS = {
         "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain",
     ],
     "Bangladesh News": [
-        "https://www.thedailystar.net/taxonomy/term/107/rss.xml",
-        "https://en.prothomalo.com/feed",
+        "https://www.thedailystar.net/news/bangladesh/rss.xml",
+        "https://www.thedailystar.net/business/rss.xml",
     ],
 }
 ```

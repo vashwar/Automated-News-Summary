@@ -43,8 +43,8 @@ FEEDS = {
         "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain",
     ],
     "Bangladesh News": [
-        "https://www.thedailystar.net/taxonomy/term/107/rss.xml",
-        "https://en.prothomalo.com/feed",
+        "https://www.thedailystar.net/news/bangladesh/rss.xml",
+        "https://www.thedailystar.net/business/rss.xml",
     ],
 }
 
