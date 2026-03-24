@@ -203,6 +203,7 @@ def test_fetch_feeds_tracks_feed_health(mock_parse):
 # 7. test_summarize_daily_returns_valid_schema
 # ---------------------------------------------------------------------------
 
+@patch("main.LLM_PROVIDER", "gemini")
 @patch("main._call_gemini")
 def test_summarize_daily_returns_valid_schema(mock_gemini):
     """Summarize should return data matching the daily schema."""
@@ -247,6 +248,7 @@ def test_summarize_daily_returns_valid_schema(mock_gemini):
 # 8. test_summarize_weekly_returns_valid_schema
 # ---------------------------------------------------------------------------
 
+@patch("main.LLM_PROVIDER", "gemini")
 @patch("main._call_gemini")
 def test_summarize_weekly_returns_valid_schema(mock_gemini):
     """Summarize weekly should return data matching the weekly schema."""
@@ -274,6 +276,7 @@ def test_summarize_weekly_returns_valid_schema(mock_gemini):
 # 9. test_summarize_empty_category_handled
 # ---------------------------------------------------------------------------
 
+@patch("main.LLM_PROVIDER", "gemini")
 @patch("main._call_gemini")
 def test_summarize_empty_category_handled(mock_gemini):
     """Empty categories should produce placeholder items."""
@@ -459,6 +462,7 @@ def test_retry_logic_sends_error_email_on_double_failure(mock_pipeline, mock_sle
 # 17. test_weekly_state_append_after_daily_run
 # ---------------------------------------------------------------------------
 
+@patch("main.LLM_PROVIDER", "gemini")
 @patch("main.send_email")
 @patch("main._call_gemini")
 @patch("main.feedparser.parse")
@@ -511,6 +515,7 @@ def test_weekly_state_append_after_daily_run(mock_parse, mock_gemini, mock_send,
 # 18. test_weekly_state_cleared_after_digest
 # ---------------------------------------------------------------------------
 
+@patch("main.LLM_PROVIDER", "gemini")
 @patch("main.send_email")
 @patch("main._call_gemini")
 @patch("main.feedparser.parse")
