@@ -624,10 +624,10 @@ def render_email(
 
 def send_email(html: str, subject: str, to_address: str) -> None:
     """Send the briefing email via Resend."""
-    resend.api_key = os.environ["RESEND_API_KEY"]
+    resend.api_key = os.environ["RESEND_API_KEY"].strip()
     params: resend.Emails.SendParams = {
-        "from": os.environ["FROM_EMAIL"],
-        "to": [to_address],
+        "from": os.environ["FROM_EMAIL"].strip(),
+        "to": [to_address.strip()],
         "subject": subject,
         "html": html,
     }
@@ -640,10 +640,10 @@ def send_error_email(error_msg: str, to_address: str) -> None:
     if os.environ.get("SEND_ERROR_EMAILS", "true").lower() != "true":
         log.info("Error emails disabled — skipping notification")
         return
-    resend.api_key = os.environ["RESEND_API_KEY"]
+    resend.api_key = os.environ["RESEND_API_KEY"].strip()
     params: resend.Emails.SendParams = {
-        "from": os.environ["FROM_EMAIL"],
-        "to": [to_address],
+        "from": os.environ["FROM_EMAIL"].strip(),
+        "to": [to_address.strip()],
         "subject": "NewsSummary: Run Failed",
         "html": (
             f"<p>Your news briefing failed after two attempts.</p>"
