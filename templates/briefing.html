@@ -151,14 +151,14 @@
     <!-- Week Overview -->
     <div class="tldr">
       <div class="tldr-label">Week in Review</div>
-      <p>{{ data.week_overview }}</p>
+      <p>{{ data.week_overview|md_bold }}</p>
     </div>
 
     <!-- World Trends -->
     <div class="section">
       <h2>World Trends</h2>
       {% for item in data.world_trends %}
-      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary }}</div>
+      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary|md_bold }}</div>
       {% endfor %}
     </div>
 
@@ -166,7 +166,7 @@
     <div class="section">
       <h2>Finance Trends</h2>
       {% for item in data.finance_trends %}
-      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary }}</div>
+      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary|md_bold }}</div>
       {% endfor %}
     </div>
 
@@ -174,7 +174,7 @@
     <div class="section">
       <h2>Bangladesh Trends</h2>
       {% for item in data.bangladesh_trends %}
-      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary }}</div>
+      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary|md_bold }}</div>
       {% endfor %}
     </div>
 
@@ -182,7 +182,7 @@
     <div class="section">
       <h2>What to Watch Next Week</h2>
       {% for item in data.what_to_watch %}
-      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary }}</div>
+      <div class="bullet"><strong>{{ item.title }}.</strong> {{ item.summary|md_bold }}</div>
       {% endfor %}
     </div>
 
@@ -192,7 +192,7 @@
     <!-- Macro TL;DR -->
     <div class="tldr">
       <div class="tldr-label">Macro TL;DR</div>
-      <p>{{ data.macro_tldr }}</p>
+      <p>{{ data.macro_tldr|md_bold }}</p>
     </div>
 
     <!-- World News -->
@@ -200,7 +200,7 @@
       <h2>World News</h2>
       {% for item in data.world_news %}
       <div class="bullet">
-        <strong>{{ item.title }}.</strong> {{ item.summary }}
+        <strong>{{ item.title }}.</strong> {{ item.summary|md_bold }}
         {% if item.source_url %}<a href="{{ item.source_url }}">[{{ item.source_name }}]</a>{% endif %}
       </div>
       {% endfor %}
@@ -211,7 +211,7 @@
       <h2>Finance News</h2>
       {% for item in data.finance_news %}
       <div class="bullet">
-        <strong>{{ item.title }}.</strong> {{ item.summary }}
+        <strong>{{ item.title }}.</strong> {{ item.summary|md_bold }}
         {% if item.source_url %}<a href="{{ item.source_url }}">[{{ item.source_name }}]</a>{% endif %}
       </div>
       {% endfor %}
@@ -222,7 +222,7 @@
       <h2>Bangladesh News</h2>
       {% for item in data.bangladesh_news %}
       <div class="bullet">
-        <strong>{{ item.title }}.</strong> {{ item.summary }}
+        <strong>{{ item.title }}.</strong> {{ item.summary|md_bold }}
         {% if item.source_url %}<a href="{{ item.source_url }}">[{{ item.source_name }}]</a>{% endif %}
       </div>
       {% endfor %}
@@ -232,7 +232,7 @@
     {% if data.connecting_the_dots %}
     <div class="connecting">
       <div class="label">Connecting the Dots</div>
-      <p>{{ data.connecting_the_dots }}</p>
+      <p>{{ data.connecting_the_dots|md_bold }}</p>
     </div>
     {% endif %}
 

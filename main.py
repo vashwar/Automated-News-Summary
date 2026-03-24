@@ -591,6 +591,12 @@ def summarize(
 # ---------------------------------------------------------------------------
 
 
+def _md_bold_to_html(text: str) -> str:
+    """Convert markdown **bold** to HTML <strong>bold</strong>."""
+    import re
+    return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
+
+
 def render_email(
     data: dict,
     edition_type: str,
@@ -599,6 +605,7 @@ def render_email(
     """Render the briefing data into an HTML email using the Jinja2 template."""
     template_dir = Path(__file__).parent / "templates"
     env = Environment(loader=FileSystemLoader(str(template_dir)), autoescape=False)
+    env.filters["md_bold"] = _md_bold_to_html
     template = env.get_template("briefing.html")
 
     now_pst = datetime.datetime.now(PST)
